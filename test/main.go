@@ -1,7 +1,7 @@
 package main
 
 import (
-	"clogger"
+	"github.com/yz271544/clogger"
 )
 
 var logger clogger.Logger
