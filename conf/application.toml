@@ -1,0 +1,7 @@
+[clogger]
+    [clogger.file]
+    file_path = "./"
+    file_name = ""
+    log_level = "debug"
+    [clogger.console]
+    log_level = "debug"
