@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/kataras/golog"
 	"github.com/pelletier/go-toml"
 	"github.com/yz271544/clogger/conf"
+	"strings"
 	"testing"
 )
 
@@ -41,4 +43,27 @@ func TestParserConfigSelf(t *testing.T) {
 
 	fmt.Println(config.ConsoleConf)
 	fmt.Println(config.FileConf)
+}
+
+func TestParserGologLevel(t *testing.T) {
+	level := golog.ParseLevel(strings.ToLower("debug"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("DEBUG"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("info"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("INFO"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("error"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("ERROR"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("WARN"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("warn"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("FATAL"))
+	fmt.Println(level)
+	level = golog.ParseLevel(strings.ToLower("fatal"))
+	fmt.Println(level)
 }

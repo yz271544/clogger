@@ -9,7 +9,7 @@ var logger clogger.Logger
 // 一个使用自定义日志库的用户程序
 func main() {
 	filePath := `D:\iProject\clogger\logs/`
-	logger = clogger.NewFileLogger(filePath, "xxx.log", "debug", true, true)
+	logger = clogger.NewGologFileLogger(filePath, "xxx", "debug", true, true)
 	//logger = clogger.NewConsoleLogger("debug")
 
 	defer logger.Close()

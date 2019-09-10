@@ -1,6 +1,9 @@
 package clogger
 
-import "strings"
+import (
+	"strings"
+	"time"
+)
 
 // 我的日志库文件
 // Level 是一个自定义的类型，代表日志级别
@@ -13,6 +16,17 @@ const (
 	WarnLevel
 	ErrorLevel
 	FatalLevel
+)
+
+const (
+	LOG_TIME_FORMAT_DAY          = "2006-01-02"
+	LOG_TIME_FORMAT              = "2006-01-02T15:04"
+	LOG_TIME_FORMAT_FILE_SEGMENT = "2006-01-02T15-04"
+	TIME_FULL_FORMAT             = "2006-01-02T15:04:05"
+)
+
+var (
+	recordTime = time.Now().Format(LOG_TIME_FORMAT)
 )
 
 // 定义一个日志传参体
