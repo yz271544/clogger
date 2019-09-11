@@ -8,9 +8,9 @@ var logger clogger.Logger
 
 // 一个使用自定义日志库的用户程序
 func main() {
-	filePath := `D:\iProject\clogger\logs/`
-	logger = clogger.NewFileLogger(filePath, "xxx.log", "debug", true, true)
-	//logger = clogger.NewConsoleLogger("debug")
+	//filePath := `D:\iProject\clogger\logs/`
+	//logger = clogger.NewFileLogger(filePath, "xxx.log", "debug", true, true)
+	logger = clogger.NewConsoleLogger("debug")
 
 	defer logger.Close()
 
@@ -24,7 +24,7 @@ func main() {
 
 	for {
 		sb := "管大妈"
-		logger.Debug("%s是个好捧哏", sb)
+		logger.Debugf("%s是个好捧哏", sb)
 		logger.Info("这是一条Info日志")
 		logger.Error("这是一条Error日志")
 		logger.Warn("这是一条Warn日志")

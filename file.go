@@ -253,8 +253,33 @@ func (f *FileLogger) processLog(fileName string, line int, funcName string, leve
 //	}
 //}
 
+func (f *FileLogger) Debug(msg string) {
+	log := NewLog(DebugLevel, "%s", msg)
+	f.jobChan <- log
+}
+
+func (f *FileLogger) Info(msg string) {
+	log := NewLog(InfoLevel, "%s", msg)
+	f.jobChan <- log
+}
+
+func (f *FileLogger) Warn(msg string) {
+	log := NewLog(WarnLevel, "%s", msg)
+	f.jobChan <- log
+}
+
+func (f *FileLogger) Error(msg string) {
+	log := NewLog(ErrorLevel, "%s", msg)
+	f.jobChan <- log
+}
+
+func (f *FileLogger) Fatal(msg string) {
+	log := NewLog(FatalLevel, "%s", msg)
+	f.jobChan <- log
+}
+
 // 方法 debug方法
-func (f *FileLogger) Debug(format string, args ...interface{}) {
+func (f *FileLogger) Debugf(format string, args ...interface{}) {
 	//f.log(DebugLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: DebugLevel, format: format, args: args}
@@ -263,7 +288,7 @@ func (f *FileLogger) Debug(format string, args ...interface{}) {
 }
 
 // 方法 info方法
-func (f *FileLogger) Info(format string, args ...interface{}) {
+func (f *FileLogger) Infof(format string, args ...interface{}) {
 	//f.log(InfoLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: InfoLevel, format: format, args: args}
@@ -272,7 +297,7 @@ func (f *FileLogger) Info(format string, args ...interface{}) {
 }
 
 // 方法 warn方法
-func (f *FileLogger) Warn(format string, args ...interface{}) {
+func (f *FileLogger) Warnf(format string, args ...interface{}) {
 	//f.log(WarnLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: WarnLevel, format: format, args: args}
@@ -281,7 +306,7 @@ func (f *FileLogger) Warn(format string, args ...interface{}) {
 }
 
 // 方法 error方法
-func (f *FileLogger) Error(format string, args ...interface{}) {
+func (f *FileLogger) Errorf(format string, args ...interface{}) {
 	//f.log(ErrorLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: ErrorLevel, format: format, args: args}
@@ -290,7 +315,7 @@ func (f *FileLogger) Error(format string, args ...interface{}) {
 }
 
 // 方法 fatal方法
-func (f *FileLogger) Fatal(format string, args ...interface{}) {
+func (f *FileLogger) Fatalf(format string, args ...interface{}) {
 	//f.log(FatalLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: FatalLevel, format: format, args: args}

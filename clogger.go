@@ -59,19 +59,29 @@ func (l *Log) task(f func(fileName string, line int, funcName string, level Leve
 
 // 定义一个Logger接口
 type Logger interface {
-	Debug(format string, args ...interface{})
+	Debug(msg string)
+
+	Info(msg string)
+
+	Warn(msg string)
+
+	Error(msg string)
+
+	Fatal(msg string)
+
+	Debugf(format string, args ...interface{})
 
 	// 方法 info方法
-	Info(format string, args ...interface{})
+	Infof(format string, args ...interface{})
 
 	// 方法 warn方法
-	Warn(format string, args ...interface{})
+	Warnf(format string, args ...interface{})
 
 	// 方法 error方法
-	Error(format string, args ...interface{})
+	Errorf(format string, args ...interface{})
 
 	// 方法 fatal方法
-	Fatal(format string, args ...interface{})
+	Fatalf(format string, args ...interface{})
 
 	Close()
 }

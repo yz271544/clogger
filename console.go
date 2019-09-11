@@ -51,8 +51,33 @@ func (c *ConsoleLogger) processLog(fileName string, line int, funcName string, l
 	fmt.Fprintln(c.file, logMsg) // 利用fmt包将msg写入f.file文件中
 }
 
+func (c *ConsoleLogger) Debug(msg string) {
+	log := NewLog(DebugLevel, "%s", msg)
+	c.jobChan <- log
+}
+
+func (c *ConsoleLogger) Info(msg string) {
+	log := NewLog(InfoLevel, "%s", msg)
+	c.jobChan <- log
+}
+
+func (c *ConsoleLogger) Warn(msg string) {
+	log := NewLog(WarnLevel, "%s", msg)
+	c.jobChan <- log
+}
+
+func (c *ConsoleLogger) Error(msg string) {
+	log := NewLog(ErrorLevel, "%s", msg)
+	c.jobChan <- log
+}
+
+func (c *ConsoleLogger) Fatal(msg string) {
+	log := NewLog(FatalLevel, "%s", msg)
+	c.jobChan <- log
+}
+
 // 方法 debug方法
-func (c *ConsoleLogger) Debug(format string, args ...interface{}) {
+func (c *ConsoleLogger) Debugf(format string, args ...interface{}) {
 	//c.log(DebugLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: DebugLevel, format: format, args: args}
@@ -61,7 +86,7 @@ func (c *ConsoleLogger) Debug(format string, args ...interface{}) {
 }
 
 // 方法 info方法
-func (c *ConsoleLogger) Info(format string, args ...interface{}) {
+func (c *ConsoleLogger) Infof(format string, args ...interface{}) {
 	//c.log(InfoLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: InfoLevel, format: format, args: args}
@@ -70,7 +95,7 @@ func (c *ConsoleLogger) Info(format string, args ...interface{}) {
 }
 
 // 方法 warn方法
-func (c *ConsoleLogger) Warn(format string, args ...interface{}) {
+func (c *ConsoleLogger) Warnf(format string, args ...interface{}) {
 	//c.log(WarnLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: WarnLevel, format: format, args: args}
@@ -79,7 +104,7 @@ func (c *ConsoleLogger) Warn(format string, args ...interface{}) {
 }
 
 // 方法 error方法
-func (c *ConsoleLogger) Error(format string, args ...interface{}) {
+func (c *ConsoleLogger) Errorf(format string, args ...interface{}) {
 	//c.log(ErrorLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: ErrorLevel, format: format, args: args}
@@ -88,7 +113,7 @@ func (c *ConsoleLogger) Error(format string, args ...interface{}) {
 }
 
 // 方法 fatal方法
-func (c *ConsoleLogger) Fatal(format string, args ...interface{}) {
+func (c *ConsoleLogger) Fatalf(format string, args ...interface{}) {
 	//c.log(FatalLevel, format, args...)
 	//fileName, line, funcName := getCallerInfo(2)
 	//log := Log{fileName: fileName, line: line, funcName: funcName, level: FatalLevel, format: format, args: args}
