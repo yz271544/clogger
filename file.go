@@ -59,8 +59,8 @@ func NewFileLogger(filePath, logFilePrefix, level string, rotateByTime, rotateBy
 		IsRotateByTime:      rotateByTime,
 		IsRotateBySize:      rotateBySize,
 		RotateBySize:        10 * 1024 * 1024,
-		RotateLogNum:        0,
-		RotateErrNum:        0,
+		RotateLogNum:        1,
+		RotateErrNum:        1,
 		IsMakeRotateNumZero: false,
 
 		jobChan: jobChan,
@@ -70,7 +70,7 @@ func NewFileLogger(filePath, logFilePrefix, level string, rotateByTime, rotateBy
 	}
 	fl.initFile()  // 根据上面的文件路径和文件名打开日志文件，把文件句柄赋值给结构体
 	go fl.doTask() // 在构造函数中，创建goroutine，用于日志处理调度
-	go fl.watchFile()
+	//go fl.watchFile()
 	return &fl
 }
 
@@ -145,12 +145,7 @@ func (f *FileLogger) splitLogFile(ftype fileType, fileObj *os.File) {
 	f.Mutex.Lock()
 	defer f.Mutex.Unlock()
 
-	fmt.Println("111")
-
-	if f.IsMakeRotateNumZero {
-		f.RotateLogNum = 0
-		f.RotateErrNum = 0
-	}
+	//fmt.Println("111")
 
 	switch ftype {
 	case LOG_FILE:
@@ -169,7 +164,7 @@ func (f *FileLogger) splitLogFile(ftype fileType, fileObj *os.File) {
 	}
 	// 2. 备份原来的文件
 	err = os.Rename(toCloseFileName, toBackupFileName)
-	fmt.Printf("备份原来的文件: %s -> %s\n", toCloseFileName, toBackupFileName)
+	//fmt.Printf("备份原来的文件: %s -> %s\n", toCloseFileName, toBackupFileName)
 	if err != nil {
 		panic(fmt.Errorf("归档日志文件失败:%s -> %s, %v", toCloseFileName, toBackupFileName, err))
 	}
@@ -196,8 +191,11 @@ func (f *FileLogger) splitLogFile(ftype fileType, fileObj *os.File) {
 	}
 
 	recordTime = time.Now().Format(LOG_TIME_FORMAT)
-
-	fmt.Println("222")
+	if f.IsMakeRotateNumZero {
+		f.RotateLogNum = 0
+		f.RotateErrNum = 0
+	}
+	//fmt.Println("222")
 }
 
 // 将公用的记录日志的功能封装成一个单独的方法
@@ -232,28 +230,28 @@ func (f *FileLogger) processLog(fileName string, line int, funcName string, leve
 	}
 }
 
-func (f *FileLogger) watchFile() {
-	var (
-		fileName string
-		fileInfo os.FileInfo
-		err      error
-	)
-	var C = time.Tick(5 * time.Second)
-	for {
-		select {
-		case c := <-C:
-			fileName = f.file.Name()
-			fileInfo, err = os.Stat(fileName)
-			fmt.Printf("[%s] logFile %s size %d, err %v\n", c.Format(TIME_FULL_FORMAT), fileName, fileInfo.Size(), err)
-
-			fileName = f.errFile.Name()
-			fileInfo, err = os.Stat(fileName)
-			fmt.Printf("[%s] logFile %s size %d, err %v\n", c.Format(TIME_FULL_FORMAT), fileName, fileInfo.Size(), err)
-
-		default:
-		}
-	}
-}
+//func (f *FileLogger) watchFile() {
+//	var (
+//		fileName string
+//		fileInfo os.FileInfo
+//		err      error
+//	)
+//	var C = time.Tick(5 * time.Second)
+//	for {
+//		select {
+//		case c := <-C:
+//			fileName = f.file.Name()
+//			fileInfo, err = os.Stat(fileName)
+//			fmt.Printf("[%s] logFile %s size %d, err %v\n", c.Format(TIME_FULL_FORMAT), fileName, fileInfo.Size(), err)
+//
+//			fileName = f.errFile.Name()
+//			fileInfo, err = os.Stat(fileName)
+//			fmt.Printf("[%s] logFile %s size %d, err %v\n", c.Format(TIME_FULL_FORMAT), fileName, fileInfo.Size(), err)
+//
+//		default:
+//		}
+//	}
+//}
 
 // 方法 debug方法
 func (f *FileLogger) Debug(format string, args ...interface{}) {
